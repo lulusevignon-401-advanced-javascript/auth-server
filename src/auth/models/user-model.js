@@ -4,9 +4,6 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-let db = {};
-
-let users = {};
 
 const user = mongoose.Schema({
   username: { type: String, required: true },
@@ -34,8 +31,8 @@ user.methods.comparePassword = function(plainPassword){
     .then(valid => valid ? this : null);
 };
 
-user.methods.tokenGenerator() = function(){
-  let token = await jwt.sign({ username: user.username }, SECRET);
+user.statics.tokenGenerator() = async function(){
+  let token = await jwt.sign({ username: user.username }, process.env.JWT_SECRET);
   return token;
 }
 

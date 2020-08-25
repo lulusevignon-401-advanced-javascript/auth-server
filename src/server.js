@@ -11,11 +11,11 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-
+app.use(express.static('../public'));
 
 module.exports = {
   start: port =>{
-    const PORT = port || process.env.PORT || 3000;
-    app.listen(PORT, ()=> console.log(`Listening on ${PORT}`));
+    const PORT = port || process.env.PORT || 3002;
+    app.listen(PORT, ()=> console.log(`Listening on PORT ${PORT}`));
   },
 };

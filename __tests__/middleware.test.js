@@ -1,7 +1,7 @@
 'useStrict';
  
 require('@code-fellows/supergoose');
-const auth = require('../src/auth/middleware/middleware.js');
+const auth = require('../src/auth/middleware/basic-auth-middleware.js');
 const User = require('../src/auth/models/user-model.js');
 
 beforeAll(async (done) => {
