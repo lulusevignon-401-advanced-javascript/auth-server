@@ -19,10 +19,15 @@ user.pre('save', async function(){
   }
 });
 
-user.statics.authenticateBasic = function (username, password){
-  let query = {username};
-  return this.findOne(query)
-    .then(users => users && users.comparePassword(password))
+user.methods.authenticateBasic = function(username, password){
+  console.log('in basic auth methods');
+  // let query = username;
+
+  return this.findOne({username: username})
+    .then(users => {
+      console.log('users in authBasic', users);
+      // users && users.comparePassword(password);
+    })
     .catch(console.error);
 };
 
@@ -31,8 +36,10 @@ user.methods.comparePassword = function(plainPassword){
     .then(valid => valid ? this : null);
 };
 
-user.statics.tokenGenerator() = async function(){
+user.methods.tokenGenerator = async function(){
+  console.log('in token Generator');
   let token = await jwt.sign({ username: user.username }, process.env.JWT_SECRET);
+  console.log('token ', token);
   return token;
 }
 
