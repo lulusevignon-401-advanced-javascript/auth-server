@@ -19,16 +19,20 @@ user.pre('save', async function(){
   }
 });
 
-user.methods.authenticateBasic = function(username, password){
+user.statics.authenticateBasic = async function(username, password){
   console.log('in basic auth methods');
+  
+  const user = await this.findOne({ username });
+  return user && await user.comparePassword(password);
+  
   // let query = username;
 
-  return this.findOne({username: username})
-    .then(users => {
-      console.log('users in authBasic', users);
-      // users && users.comparePassword(password);
-    })
-    .catch(console.error);
+  // return this.findOne({username: username})
+  //   .then(users => {
+  //     console.log('users in authBasic', users);
+  //     // users && users.comparePassword(password);
+  //   })
+  //   .catch(console.error);
 };
 
 user.methods.comparePassword = function(plainPassword){
