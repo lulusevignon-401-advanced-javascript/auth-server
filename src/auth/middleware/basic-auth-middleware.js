@@ -3,27 +3,29 @@
 require('dotenv').config();
 
 const base64 = require('base-64');
-const user = require('../models/user-model');
+const User = require('../models/user-model');
 
 module.exports = async (req,res,next) =>{
   console.log('in middleware', req.headers.authorization );
 
-  if (!req.headers.authorization){ next('Invalid Login'); return;}
+  const errorObject = { 'message': 'Invalid User ID/Password', 'status': 401, 'statusMessage': 'Unauthorized' };
 
-  let basic = req.headers.authorization.split(' ').pop();
+  // if (!req.headers.authorization){ next('Invalid Login'); return;}
 
-  let [user, pass] = base64.decode(basic).split(':');
+  let encodedPair = req.headers.authorization.split(' ').pop();
+
+  let [user, pass] = base64.decode(encodedPair).split(':');
   
   
   
   try {
-    const validUser = await user.authenticateBasic(user, pass);
+    const validUser = await User.authenticateBasic(user, pass);
     console.log('valid user', validUser);
-    req.token = user.tokenGenerator(validUser);
-    req.user = user;
+    req.token = validUser.tokenGenerator();
+    // req.user = user;
     next();
   } catch(err) {
-    next('Invalid Login in catch');
+    next(errorObject);
   }  
 };
    

@@ -35,16 +35,34 @@ user.statics.authenticateBasic = async function(username, password){
   //   .catch(console.error);
 };
 
-user.methods.comparePassword = function(plainPassword){
-  return bcrypt.compare(plainPassword, this.password)
-    .then(valid => valid ? this : null);
+user.methods.comparePassword = async function(plainPassword){
+  const passwordMatch = await bcrypt.compare(plainPassword, this.password);
+  return passwordMatch ? this : null;
 };
 
-user.methods.tokenGenerator = async function(){
+user.methods.tokenGenerator = function(password){
   console.log('in token Generator');
-  let token = await jwt.sign({ username: user.username }, process.env.JWT_SECRET);
-  console.log('token ', token);
-  return token;
-}
+  // let token = await jwt.sign({ username: user.username }, process.env.JWT_SECRET);
+  // console.log('token ', token);
+  // return token;
+  const payload = {
+    role: this.role,
+  };
+  return jwt.sign(payload, process.env.JWT_SECRET);
+};
+
+user.statics.createFromOauth = async function(email){
+
+  if(!email){
+    return Promise.reject('Validation Error');
+  }
+
+  const user = await this.findOne({ email });
+  if (user){
+    return user;
+  } else {
+    return this.create({ username: email, password: 'none', email:email});
+  }
+};
 
 module.exports = mongoose.model('user', user);

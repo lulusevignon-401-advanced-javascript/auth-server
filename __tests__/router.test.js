@@ -27,7 +27,7 @@ describe('Auth Router', () => {
 
         const token = jwt.verify(results.body.token, process.env.JWT_SECRET);
 
-        expect(token.role).toBeDefined(userType);
+        expect(token.role).toBeDefined();
 
       });
 

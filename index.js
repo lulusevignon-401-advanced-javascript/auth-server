@@ -1,5 +1,6 @@
 'use strict';
 
+require('dotenv').config();
 const mongoose = require('mongoose');
 const server = require('./src/server.js');
 
@@ -15,3 +16,5 @@ mongoose.connect(MONGODB_URI, mongooseOptions);
 
 
 server.start(3000);
+
+// require('./src/app.js').start(process.env.PORT);
