@@ -40,15 +40,21 @@ user.methods.comparePassword = async function(plainPassword){
   return passwordMatch ? this : null;
 };
 
-user.methods.tokenGenerator = function(password){
+user.methods.tokenGenerator = function(){
   console.log('in token Generator');
   // let token = await jwt.sign({ username: user.username }, process.env.JWT_SECRET);
   // console.log('token ', token);
   // return token;
-  const payload = {
+  // const payload = {
+  //   role: this.role,
+  // };
+
+  let token = {
+    id: this._id,
     role: this.role,
   };
-  return jwt.sign(payload, process.env.JWT_SECRET);
+  let options = {};
+  return jwt.sign(token, process.env.JWT_SECRET, options);
 };
 
 user.statics.createFromOauth = async function(email){
@@ -63,6 +69,12 @@ user.statics.createFromOauth = async function(email){
   } else {
     return this.create({ username: email, password: 'none', email:email});
   }
+};
+
+user.statics.authenticateToken = function (token){
+
+  let parsedToken = jwt.verify(token, process.env.JWT_SECRET);
+  return this.findById(parsedToken.id);
 };
 
 module.exports = mongoose.model('user', user);
