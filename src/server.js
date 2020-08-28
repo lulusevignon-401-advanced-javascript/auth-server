@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 const cors = require('cors');
 // const router = require('./auth/routes/routes');
 const router = require('./auth/routes/routes');
+const extraRouter = require('./extra-routes.js');
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.static('./public'));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(router);
+app.use(extraRouter);
 // require('../src/auth/routes/routes')(router);
 
 // require('../src/auth/routes/routes')(router);

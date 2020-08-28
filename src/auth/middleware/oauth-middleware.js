@@ -1,6 +1,6 @@
 'use strict';
 
-const user = require('../models/user-model.js');
+const User = require('../models/user-model.js');
 const superagent = require('superagent');
 
 
@@ -61,14 +61,16 @@ async function getRemoteUserInfo(token) {
 }
 
 async function getUser(remoteUser) {
-  let userRecord = {
-    username: remoteUser.login,
-    password: 'oauthpassword', // Placeholder for now
-  };
+  // let userRecord = {
+  //   username: remoteUser.login,
+  //   password: 'oauthpassword', // Placeholder for now
+  // };
+  // let users = await User.save(userRecord);
+  // let token = users.generateToken();
 
-  let users = await user.save(userRecord);
-  let token = user.generateToken(users);
+  let users = await User.createFromOauth(remoteUser.login);
+  let token = users.generateToken();
 
-  return {users, token};
+  return [users, token];
 
 }

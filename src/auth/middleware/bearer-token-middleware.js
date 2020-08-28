@@ -1,7 +1,22 @@
 'use strict';
 
-const users = require('../models/user-model.js');
+const User = require('../models/user-model.js');
 
-module.exports = function bearerAuth(){
+module.exports = async (req, res,next) => {
+  if (!req.headers.authorization) { next('Invalid Login: Missing Headers'); return; }
 
+  let token = req.headers.authorization.split(' ').pop();
+
+  try {
+
+    const validUser = await User.authenticateToken(token);
+
+    req.user = validUser;
+
+    next();
+
+  } catch (err) {
+
+    next('Invalid Login');
+  }
 };
