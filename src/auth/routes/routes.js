@@ -66,6 +66,14 @@ router.get('/users', basicAuth, (req, res) => {
   // res.status(200).json(user.list());
 });
 
+router.get('/users', /*bearerAuth*/ (req, res) => {
+  User.find()
+    .then(info => {
+      res.status(200).json(info);
+    });
+  // res.status(200).json(user.list());
+});
+
 
 
 module.exports = router;
