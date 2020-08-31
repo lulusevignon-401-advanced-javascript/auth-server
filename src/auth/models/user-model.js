@@ -28,12 +28,12 @@ users.pre('save', async function () {
     this.password = await bcrypt.hash(this.password, 10);
   }
 
-  let role = this.role;
-  role = 'admin';
+  // let role = this.role; FOR TESTING
+  // role = 'admin';
 
   if(this.isModified('role')) {
 
-    switch (role) {
+    switch (this.role) {
     case 'admin':
       this.capabilities = ['create', 'read', 'update', 'delete'];
       break;
@@ -64,7 +64,8 @@ users.statics.createFromOauth = function (username) {
     .catch(error => {
       console.log('Creating new user');
       let password = 'phoneybaloney';
-      return this.create({ username, password });
+      // let role = 'admin'; FOR TESTING
+      return this.create({ username, password /*,role*/ });
     });
 };
 
