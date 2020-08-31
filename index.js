@@ -2,9 +2,6 @@
 
 require('dotenv').config();
 const mongoose = require('mongoose');
-const server = require('./src/server.js');
-
-const MONGODB_URI = 'mongodb://localhost:27017/products';
 
 const mongooseOptions = {
   useNewUrlParser: true,
@@ -12,9 +9,8 @@ const mongooseOptions = {
   useUnifiedTopology: true,
 };
 
+const MONGODB_URI = process.env.MONGODB_URI;
 mongoose.connect(MONGODB_URI, mongooseOptions);
 
 
-server.start(3000);
-
-// require('./src/app.js').start(process.env.PORT);
+require('./src/server.js').start(process.env.PORT);

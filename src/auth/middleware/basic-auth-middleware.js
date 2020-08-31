@@ -1,6 +1,5 @@
 'useStrict';
 
-require('dotenv').config();
 
 const base64 = require('base-64');
 const User = require('../models/user-model');
@@ -8,7 +7,7 @@ const User = require('../models/user-model');
 module.exports = async (req,res,next) =>{
   console.log('in middleware', req.headers.authorization );
 
-  const errorObject = { 'message': 'Invalid User ID/Password', 'status': 401, 'statusMessage': 'Unauthorized' };
+  const errorObject = { status: 401, statusMessage: 'Unauthorized', message: 'Invalid User ID/Password' };
 
   if (!req.headers.authorization){ next(errorObject); return;}
 
@@ -20,8 +19,8 @@ module.exports = async (req,res,next) =>{
   try {
     const validUser = await User.authenticateBasic(user, pass);
     console.log('valid user', validUser);
-    req.token = validUser.tokenGenerator();
-    req.user = user;
+    req.token = validUser.generateToken();
+    
     next();
   } catch(err) {
     next(errorObject);

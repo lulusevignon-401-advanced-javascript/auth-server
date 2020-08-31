@@ -1,12 +1,12 @@
 'use strict';
 
 const express = require('express');
-// require('dotenv').config();
+const cors = require('cors');
+
 const bcrypt = require('bcrypt');
 const base64 = require('base-64');
 const jwt = require('jsonwebtoken');
-const cors = require('cors');
-// const router = require('./auth/routes/routes');
+
 const router = require('./auth/routes/routes');
 const extraRouter = require('./extra-routes.js');
 
@@ -19,13 +19,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(router);
 app.use(extraRouter);
-// require('../src/auth/routes/routes')(router);
-
-// require('../src/auth/routes/routes')(router);
 
 module.exports = {
   server: app,
-  start: port =>{
+  start: (port) =>{
     const PORT = port || process.env.PORT || 3002;
     app.listen(PORT, ()=> console.log(`Listening on PORT ${PORT}`));
   },
