@@ -18,6 +18,35 @@ We have a real need to manage a list of users of many types, and control their a
 1. Once logged in, Users can then access any route on the server, so long as they are permitted by the capabilities that match their role.
     - For example, a route that deletes records should only work if your user role is “admin”
 
+
+## Setup
+
+- Clone down this repo locally
+- Run `npm i` in root directory
+- Add `.env` file
+- In one terminal turn on server using `node .` or `node index.js`
+- Use Postman or HTTPie in another terminal to perform CRUD operations on data models
+
+### .env file setup:
+
+- `PORT=`
+- `SECRET=`
+- `GITHUB_CLIENT_ID=`
+- `GITHUB_CLIENT_SECRET=`
+- `TOKEN_EXPIRE=`
+- `SINGLE_USE_TOKENS=true`
+- `MONGODB_URI=`
+
+## Data Model
+
+- username: { type: String, required: true, unique: true },
+- password: { type: String, required: true },
+- fullname: { type: String },
+- email: { type: String },
+- role: { type: String, required: true, default: 'user', enum: ['admin', 'editor', 'writer', 'user'] },
+- capabilities: { type: Array, required: true, default: [] },
+
+
 ## Technical Requirements
 
 - Node.js
@@ -43,11 +72,3 @@ We have a real need to manage a list of users of many types, and control their a
 - User Persistence using a Mongo Database (NoSQL)
 Mongoose Schemas (data models) to define and model data
 
-## Data Model
-
-- username: { type: String, required: true, unique: true },
-- password: { type: String, required: true },
-- fullname: { type: String },
-- email: { type: String },
-- role: { type: String, required: true, default: 'user', enum: ['admin', 'editor', 'writer', 'user'] },
-- capabilities: { type: Array, required: true, default: [] },
