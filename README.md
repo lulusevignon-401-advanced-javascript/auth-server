@@ -2,7 +2,7 @@
 
 An Express/Node.js based server using a custom “authentication” module that is designed to handle user registration and sign in using Basic, Bearer, or OAuth along with a custom “authorization” module that will grant/deny users access to the server based on their role or permissions level.
 
-## Business Requirements
+## [Business Requirements](https://codefellows.github.io/code-401-javascript-guide/curriculum/apps-and-libraries/auth-server/)
 We have a real need to manage a list of users of many types, and control their access to our data accordingly. The system to be built will have the following core features:
 
 1. Users can create an account, associated with a “role”
